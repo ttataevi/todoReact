@@ -53,32 +53,37 @@ export function Task(props) {
 	}
 
 	const saveEdit = (currId) => {
-		let updatedTodos = [...props.myArr].map((currElem) => {
-			if (currElem.currKey === currId) {
-				currElem.name = props.currText;
-			}
-			return currElem;
-		});
-		props.setArr(updatedTodos);
-		const filteredVersion = [...props.currEditItems].filter((elem) => elem !== currId);
-		props.setCurrEditItem(filteredVersion);
-		props.SetCurrText('');
+		if(props.currText.trim().length === 0){
+			alert('Text is empty!')
+		} else {
+			let updatedTodos = [...props.myArr].map((currElem) => {
+				if (currElem.currKey === currId) {
+					currElem.name = props.currText;
+				}
+				return currElem;
+			});
+			props.setArr(updatedTodos);
+			const filteredVersion = [...props.currEditItems].filter((elem) => elem !== currId);
+			props.setCurrEditItem(filteredVersion);
+			props.SetCurrText('');
+		}
+
 	}
 
 	if (toEdit) {
 		return (
-			<div className='right' key={props.currKey}>
-				<input type='text' name='edit' value={props.currText} onChange={(e) => props.SetCurrText(e.target.value)}
-				       maxLength='40'/>
-				<button className='btn btn-warning' onClick={() => deleteFromEdits(props.currKey)}> cancel</button>
-				<button className='btn btn-success' onClick={() => saveEdit(props.currKey)}>save</button>
+			<div className="right" key={props.currKey}>
+				<input type="text" name="edit" value={props.currText} onChange={(e) => props.SetCurrText(e.target.value)}
+				       maxLength="40"/>
+				<button className="btn btn-warning" onClick={() => deleteFromEdits(props.currKey)}> cancel</button>
+				<button className="btn btn-success" onClick={() => saveEdit(props.currKey)}>save</button>
 			</div>
 		);
 	}
 
 	return (
 		<div className='right' key={props.currKey}>
-			<input type='checkbox' className='form-check-input' checked={props.completed}
+			<input type="checkbox" className="form-check-input" checked={props.completed}
 			       onChange={() => changedItem(props.currKey)}/>
 			<h1 className={props.completed ? 'line' : 'basic'}>{props.name}</h1>
 			<button className='btn btn-danger' onClick={() => deleteItem(props.currKey)}> Delete</button>

@@ -41,9 +41,10 @@ function App() {
 
 	return (
 		<div className='container p-3 my-4'>
-			<input type="text" name='task' placeholder='enter your task:' ref={currRef} maxLength='40'
+			<input type="text" name="task" placeholder="enter your task:" ref={currRef} maxLength="40"
 			       onKeyDown={enterClicked}/>
-			<input type='button' className='btn btn-primary' value='add' onClick={addTask}/>
+			<input type="button" className="btn btn-primary" value="add"
+			       onClick={addTask}/>
 			<ul>
 				{myArr.slice((currPage - 1) * 5, (currPage - 1) * 5 + 5).map((elem) => {
 					return <li key={elem.currKey}>
@@ -61,4 +62,4 @@ function App() {
 	);
 }
 
-ReactDOM.render(<App/>, document.getElementById('root'));
+ReactDOM.render(<App/>, document.getElementById("root"));
