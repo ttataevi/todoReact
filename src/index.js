@@ -10,10 +10,11 @@ function App() {
 	const currRef = useRef(null);
 	const [myArr, setArr] = useState([]);
 	const [currEditItems, setCurrEditItem] = useState([]);
-	const editText = useRef(null);
 	const [currPage, setCurrPage] = useState(1);
 	const [buttons, setButtons] = useState([{'number': 1, 'id': Date.now()}]);
-	const [currText, setCurrText] = useState('');
+
+
+
 
 	const enterClicked = (event) => {
 		if (event.key === 'Enter') {
@@ -27,7 +28,9 @@ function App() {
 		if (currTask.trim().length === 0) {
 			alert('Text is empty!')
 		} else {
-			const currElem = {name: currTask, currKey: Date.now(), completed: false};
+			const currKey = Date.now();
+			const currElem = {'name': currTask, 'currKey':currKey, 'completed': false, 'editVal': currTask};
+
 			setArr([...myArr].concat(currElem));
 			setCurrPage(buttons.length);
 			if (myArr.length % 5 === 0 && myArr.length !== 0) {
@@ -35,9 +38,10 @@ function App() {
 				setButtons([...buttons].concat({'number': buttons.length + 1, 'id': Date.now()}))
 			}
 			currRef.current.value = '';
+
+
 		}
 	}
-
 
 	return (
 		<div className='container p-3 my-4'>
@@ -50,8 +54,8 @@ function App() {
 					return <li key={elem.currKey}>
 						<Task name={elem.name} currKey={elem.currKey} completed={elem.completed}
 						      currEditItems={currEditItems} setCurrEditItem={setCurrEditItem} myArr={myArr}
-						      setArr={setArr} editText={editText} SetCurrText={setCurrText}
-						      currText={currText} buttons={buttons} setButtons={setButtons} currPage={currPage}
+						      setArr={setArr}
+						    buttons={buttons} setButtons={setButtons} currPage={currPage}
 						      setCurrPage={setCurrPage}
 						/>
 					</li>;

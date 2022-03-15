@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export function Task(props) {
+
+	const [currText, SetCurrText] = useState(props.name);
 	let toEdit = false;
 	[...props.currEditItems].map((currElem) => {
 		if (currElem === props.currKey) {
@@ -38,7 +40,7 @@ export function Task(props) {
 
 	const addToEdits = (currId, currName) => {
 		props.setCurrEditItem([...props.currEditItems].concat(currId));
-		props.SetCurrText(currName);
+		SetCurrText(currName);
 	}
 
 
@@ -53,27 +55,28 @@ export function Task(props) {
 	}
 
 	const saveEdit = (currId) => {
-		if(props.currText.trim().length === 0){
+		if(currText.trim().length === 0){
 			alert('Text is empty!')
 		} else {
 			let updatedTodos = [...props.myArr].map((currElem) => {
 				if (currElem.currKey === currId) {
-					currElem.name = props.currText;
+					currElem.name = currText;
 				}
 				return currElem;
 			});
 			props.setArr(updatedTodos);
 			const filteredVersion = [...props.currEditItems].filter((elem) => elem !== currId);
 			props.setCurrEditItem(filteredVersion);
-			props.SetCurrText('');
+			SetCurrText('');
 		}
 
 	}
 
 	if (toEdit) {
+
 		return (
 			<div className="right" key={props.currKey}>
-				<input type="text" name="edit" value={props.currText} onChange={(e) => props.SetCurrText(e.target.value)}
+				<input type="text" name="edit" value={currText} onChange={(e) => SetCurrText(e.target.value)}
 				       maxLength="40"/>
 				<button className="btn btn-warning" onClick={() => deleteFromEdits(props.currKey)}> cancel</button>
 				<button className="btn btn-success" onClick={() => saveEdit(props.currKey)}>save</button>
