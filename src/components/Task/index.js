@@ -2,95 +2,66 @@ import React, { useState } from 'react';
 
 export function Task(props) {
 
-	const [currText, SetCurrText] = useState(props.name);
-	let toEdit = false;
-	[...props.currEditItems].map((currElem) => {
-		if (currElem === props.currKey) {
-			toEdit = true;
-		}
-		return currElem;
-	})
-
+	const [currText, setCurrText] = useState(props.name);
+	const [isEditMode, setEditMode] = useState(false);
+	const maxNumberOnPage = 5;
 
 	const deleteItem = (currId) => {
-		const filteredVersion = [...props.myArr].filter((elem) => elem.currKey !== currId);
-		props.setArr(filteredVersion);
-
+		const deletedFromElems = [...props.elems].filter((elem) => elem.currKey !== currId);
+		props.setElems(deletedFromElems);
 		const newButtons = [];
-		for (let i = 0; i < Math.ceil((props.myArr.length - 1) / 5); i++) {
-			const newOne = {'number': i + 1, 'id': Date.now()};
-			newButtons.push(newOne);
+		for (let i = 0; i < Math.ceil((props.elems.length - 1) / maxNumberOnPage); i++) {
+			newButtons.push({'number': i + 1, 'id': Date.now()});
+		}
+		if (props.elems.length - 1 === 0) {
+			newButtons.push({'number': 1, 'id': Date.now()});
 		}
 		props.setButtons(newButtons);
-		if (props.myArr.length - 1 === 0) {
-			const newOne = {'number': 1, 'id': Date.now()};
-			newButtons.push(newOne);
-			props.setButtons(newButtons);
-		}
-		if (props.currPage === props.buttons.length && (props.myArr.length - 1) % 5 === 0) {
+		if (props.currPage === props.buttons.length && (props.elems.length - 1) % maxNumberOnPage === 0) {
 			props.setCurrPage(props.currPage - 1);
 		}
-
 	}
 
-	const deleteFromEdits = (currId) => {
-		const filteredVersion = [...props.currEditItems].filter((elem) => elem !== currId);
-		props.setCurrEditItem(filteredVersion);
-	}
-
-	const addToEdits = (currId, currName) => {
-		props.setCurrEditItem([...props.currEditItems].concat(currId));
-		SetCurrText(currName);
-	}
-
-
-	const changedItem = (currId) => {
-		let updatedTodos = [...props.myArr].map((currElem) => {
+	const changeItemChecked = (currId) => {
+		let updatedTodos = [...props.elems].map((currElem) => {
 			if (currElem.currKey === currId) {
 				currElem.completed = !currElem.completed;
 			}
 			return currElem;
 		});
-		props.setArr(updatedTodos);
+		props.setElems(updatedTodos);
 	}
 
-	const saveEdit = (currId) => {
-		if(currText.trim().length === 0){
+	const changeItemProps = (currId) => {
+		if (currText.trim().length === 0) {
 			alert('Text is empty!')
 		} else {
-			let updatedTodos = [...props.myArr].map((currElem) => {
+			let updatedTodos = [...props.elems].map((currElem) => {
 				if (currElem.currKey === currId) {
 					currElem.name = currText;
 				}
 				return currElem;
 			});
-			props.setArr(updatedTodos);
-			const filteredVersion = [...props.currEditItems].filter((elem) => elem !== currId);
-			props.setCurrEditItem(filteredVersion);
-			SetCurrText('');
+			props.setElems(updatedTodos);
+			setEditMode(false);
+			setCurrText('');
 		}
-
 	}
 
-	if (toEdit) {
-
-		return (
+	return (isEditMode ?
 			<div className="right" key={props.currKey}>
-				<input type="text" name="edit" value={currText} onChange={(e) => SetCurrText(e.target.value)}
+				<input type="text" name="edit" value={currText.toString()} onChange={(e) => setCurrText(e.target.value)}
 				       maxLength="40"/>
-				<button className="btn btn-warning" onClick={() => deleteFromEdits(props.currKey)}> cancel</button>
-				<button className="btn btn-success" onClick={() => saveEdit(props.currKey)}>save</button>
+				<button className="btn btn-warning" onClick={() => setEditMode(false)}> cancel</button>
+				<button className="btn btn-success" onClick={() => changeItemProps(props.currKey)}>save</button>
 			</div>
-		);
-	}
-
-	return (
-		<div className='right' key={props.currKey}>
-			<input type="checkbox" className="form-check-input" checked={props.completed}
-			       onChange={() => changedItem(props.currKey)}/>
-			<h1 className={props.completed ? 'line' : 'basic'}>{props.name}</h1>
-			<button className='btn btn-danger' onClick={() => deleteItem(props.currKey)}> Delete</button>
-			<button className='btn btn-success' onClick={() => addToEdits(props.currKey, props.name)}>Edit</button>
-		</div>
+			:
+			<div className="right" key={props.currKey}>
+				<input type="checkbox" className="form-check-input" checked={props.completed}
+				       onChange={() => changeItemChecked(props.currKey)}/>
+				<h1 className={props.completed ? "line" : "basic"}>{props.name}</h1>
+				<button className="btn btn-danger" onClick={() => deleteItem(props.currKey)}> Delete</button>
+				<button className="btn btn-success" onClick={() => setEditMode(true)}>Edit</button>
+			</div>
 	);
 }

@@ -1,13 +1,11 @@
 .right{
     display: flex;
     flex-direction: row;
-
 }
 
 .line{
     text-decoration: line-through;
 }
-
 
 .basic{
     text-decoration: none;
