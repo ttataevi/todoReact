@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 
 import { Pagination } from './components/Pagination';
 import { Task } from './components/Task';
-
+import Button from '@mui/material/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Container from '@mui/material/Container';
 import './style.css';
 
 function App() {
@@ -48,8 +49,9 @@ function App() {
 	}
 
 	return (
-		<div className="container p-3 my-4">
+		<Container sx={{ mx: 30, m : 10}} maxWidth="lg">
 			<input
+
 				type="text"
 				name="task"
 				placeholder="enter your task:"
@@ -57,8 +59,10 @@ function App() {
 				maxLength="40"
 				onKeyDown={enterClicked}
 			/>
-			<input type="button" className="btn btn-primary" value="add"
-			       onClick={addTask}/>
+			<Button
+				variant = "contained"
+				color = "success"
+				onClick={() =>addTask()}>add</Button>
 
 			{items.slice((currentPage - 1) * maxItemOnPerPage, (currentPage - 1) * maxItemOnPerPage + maxItemOnPerPage).map((elem) => {
 				return <Task
@@ -73,7 +77,7 @@ function App() {
 				currentPage={currentPage}
 				setCurrentPage={setCurrentPage}
 			/>
-		</div>
+		</Container>
 	);
 }
 

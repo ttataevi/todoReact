@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Button from '@mui/material/Button';
+import Container from "@mui/material/Container";
 
 export const Task = ({deleteItemById, item, saveElementChangeById}) => {
 	const [currentText, setCurrentText] = useState(item.name);
@@ -13,7 +15,7 @@ export const Task = ({deleteItemById, item, saveElementChangeById}) => {
 		}
 	}
 
-	return <div className="right" key={item.id}>
+	return <Container className="right" key={item.id}>
 		{isEditMode ? (
 				<>
 					<input
@@ -21,12 +23,18 @@ export const Task = ({deleteItemById, item, saveElementChangeById}) => {
 						value={currentText}
 						onChange={(e) => setCurrentText(e.target.value)}
 						maxLength="40"/>
-					<button className="btn btn-warning" onClick={() => {
-						setEditMode(false);
-						setCurrentText(item.name);
-					}}> cancel
-					</button>
-					<button className="btn btn-success" onClick={() => saveItemChange(item.id)}>save</button>
+					<Button
+						variant="contained"
+						color="error"
+						onClick={() => {
+							setEditMode(false);
+							setCurrentText(item.name);
+						}}> cancel
+					</Button>
+					<Button
+						variant="contained"
+						color="success"
+						onClick={() => saveItemChange(item.id)}>save</Button>
 				</>
 			)
 			: (
@@ -37,10 +45,18 @@ export const Task = ({deleteItemById, item, saveElementChangeById}) => {
 						checked={item.completed}
 						onChange={() => saveElementChangeById(item.id, {...item, completed: !item.completed})}/>
 					<h1 className={item.completed ? "line" : "basic"}>{item.name}</h1>
-					<button className="btn btn-danger" onClick={() => deleteItemById(item.id)}> Delete</button>
-					<button className="btn btn-success" onClick={() => setEditMode(true)}>Edit</button>
+					<Button
+						variant="contained"
+						color="error"
+						size="small"
+						onClick={() => deleteItemById(item.id)}> Delete</Button>
+					<Button
+						variant="contained"
+						color="info"
+						size="small"
+						className="btn btn-success" onClick={() => setEditMode(true)}>Edit</Button>
 				</>)
 		}
-	</div>
+	</Container>
 }
 

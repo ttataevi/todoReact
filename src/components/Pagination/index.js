@@ -1,14 +1,19 @@
 import React from "react";
+import Button from '@mui/material/Button';
+
 
 export const Pagination = ({numberOfButtons, currentPage, setCurrentPage}) => {
 	const pagination = [];
 	for (let i = 1; i <= numberOfButtons; i++) {
-		pagination.push(<button
+		let itemVariant =  currentPage === i ? "contained" : "secondary";
+		pagination.push(<Button
+			variant = {itemVariant}
+			color="success"
+			size="large"
 			key={`pagination-${i}`}
-			className={`btn btn-primary ${currentPage === i && 'active'}`}
 			onClick={() => setCurrentPage(i)}>
 			{i}
-		</button>)
+		</Button>)
 	}
 	return (
 		<div>
