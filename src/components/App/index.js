@@ -11,8 +11,9 @@ import { useRef } from "react";
 
 import { useDispatch } from "react-redux";
 import { addNewTask, deleteTask, saveChangeByItemId, setCurrentPage } from "../../redux/actions";
+import { Link } from "react-router-dom";
 
-export const App= ()=> {
+ const App= ()=> {
 
 	const state = useSelector((state) => state);
 	const dispatch = useDispatch();
@@ -84,6 +85,8 @@ export const App= ()=> {
 			<Pagination
 				numberOfButtons={Math.ceil(state.items.length / maxItemOnPerPage) > 0 ? Math.ceil(state.items.length / maxItemOnPerPage) : 1}
 			/>
+			<Link to="/">Homepage</Link>
 		</Container>
 	);
 }
+export default App;
