@@ -4,10 +4,11 @@ import { applyMiddleware, createStore, } from 'redux';
 import reducer from './reducers/reducers';
 
 const initialState = {
-	items : [],
-	currentPage:1,
+	items: [],
+	currentPage: 1,
+	user: "",
 }
 
-const store = createStore(reducer,initialState,composeWithDevTools(applyMiddleware()));
+const store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware()));
 
 export { store }

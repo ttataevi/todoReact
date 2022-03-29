@@ -1,12 +1,17 @@
 export const actionTypes = {
 	ADD_TASK: 'ADD_TASK',
-	DELETE_TASK :  'DELETE_TASK',
-	SET_PAGE : 'SET_PAGE',
-	CHANGE_TASK : 'CHANGE_TASK',
-
+	DELETE_TASK: 'DELETE_TASK',
+	SET_PAGE: 'SET_PAGE',
+	CHANGE_TASK: 'CHANGE_TASK',
+	SET_USER: 'SET_USER',
 }
 
-
+export const setUser = (user) => {
+	return {
+		type: actionTypes.SET_USER,
+		payload: user
+	}
+}
 export const addNewTask = (newTask) => {
 	return {
 		type: actionTypes.ADD_TASK,

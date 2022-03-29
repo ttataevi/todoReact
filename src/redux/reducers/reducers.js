@@ -25,7 +25,11 @@ const reducer = (state, action) => {
 				...state,
 				items: changedArr
 			}
-
+		case (actionTypes.SET_USER):
+			return {
+				...state,
+				user: action.payload
+			}
 		default:
 			return state;
 	}

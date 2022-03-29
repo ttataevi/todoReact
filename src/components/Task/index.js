@@ -8,14 +8,11 @@ export const Task = ({deleteItemById, item, saveElementChangeById}) => {
 		if (item.currentText.trim().length === 0) {
 			alert('Text is empty!')
 		} else {
-			item.isEditMode = false;
-			saveElementChangeById(item.id, {...item, name: item.currentText})
-
+			saveElementChangeById(item.id, {...item, name: item.currentText, isEditMode: false})
 		}
 	}
 	const editButtonClicked = () => {
-		item.isEditMode = true;
-		saveElementChangeById(item.id, item)
+		saveElementChangeById(item.id, {...item, isEditMode: true})
 	}
 	return <Container key={item.id}>
 		{item.isEditMode ? (
